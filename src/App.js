@@ -1,25 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
+import {useDispatch, useSelector} from "react-redux";
+import {useState} from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const dispatch = useDispatch()
+    const {res} = useSelector(state => state)
+    const [num, setNum] = useState('')
+    const [num2, setNum2] = useState('')
+
+    const plus = () => {
+        dispatch({
+            type: 'PLUS',
+            payload: +num + +num2
+        })
+    }
+    const minus = () => {
+        dispatch({
+            type: 'MINUS',
+            payload: num - num2
+        })
+    }
+    const multiply = () => {
+        dispatch({
+            type: 'MULTIPLY',
+            payload: num / num2
+        })
+    }
+    const divided = () => {
+        dispatch({
+            type: 'DIVIDED',
+            payload: num * num2
+        })
+    }
+
+    return (
+        <div className="App">
+            {
+                num > 0 && num2 > 0
+                    ? <h1>{res}</h1>
+                    : <p>пустая строка</p>
+            }
+            <input type="text" value={num} onChange={(e) => setNum(e.target.value)}/>
+            <input type="text" value={num2} onChange={(e) => setNum2(e.target.value)}/>
+            <button onClick={plus}>+</button>
+            <button onClick={minus}>-</button>
+            <button onClick={multiply}>/</button>
+            <button onClick={divided}>*</button>
+        </div>
+    );
 }
 
 export default App;
